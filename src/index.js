@@ -1,12 +1,34 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import Axios from "axios";
+import jwtDecode from "jwt-decode";
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
+import Routes from "./routes";
+import store from "./store";
+import {
+  getUserDataAction,
+  logoutUserAction
+} from "./store/actions/userActions";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const token = localStorage._sat;
+if (token) {
+  const { exp } = jwtDecode(token);
+  if (exp * 1000 < Date.now()) {
+    store.dispatch(logoutUserAction());
+    window.location.href = "/login";
+  } else {
+    Axios.defaults.headers.common["Authorization"] = token;
+    store.dispatch(getUserDataAction());
+  }
+}
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(
+  <BrowserRouter>
+    <Provider store={store}>
+      <Routes />
+    </Provider>
+  </BrowserRouter>,
+  document.getElementById("root")
+);
