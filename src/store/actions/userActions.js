@@ -13,7 +13,7 @@ import {
 
 export const getUserDataAction = () => dispatch => {
   dispatch({ type: SET_LOADING });
-  Axios.get("/user")
+  Axios.get("https://europe-west1-social-app-3e8d4.cloudfunctions.net/api/user")
     .then(res => {
       console.log(res);
       dispatch({ type: SET_LOADING });
@@ -31,7 +31,10 @@ export const getUserDataAction = () => dispatch => {
 export const loginUserAction = (authData, history) => dispatch => {
   dispatch({ type: SET_LOADING });
   dispatch({ type: SET_ERRORS });
-  Axios.post("/users/login", authData)
+  Axios.post(
+    "https://europe-west1-social-app-3e8d4.cloudfunctions.net/api/users/login",
+    authData
+  )
     .then(data => {
       console.log(data);
       dispatch({ type: SET_LOADING });
@@ -50,7 +53,10 @@ export const loginUserAction = (authData, history) => dispatch => {
 export const registerUserAction = (userData, history) => dispatch => {
   dispatch({ type: SET_LOADING });
   dispatch({ type: SET_ERRORS });
-  Axios.post("/users/signup", userData)
+  Axios.post(
+    "https://europe-west1-social-app-3e8d4.cloudfunctions.net/api/users/signup",
+    userData
+  )
     .then(data => {
       console.log(data);
       dispatch({ type: SET_LOADING });
@@ -78,7 +84,10 @@ export const logoutUserAction = () => dispatch => {
 
 export const uploadImageAction = formData => dispatch => {
   dispatch({ type: SET_LOADING });
-  Axios.post("/user/image", formData)
+  Axios.post(
+    "https://europe-west1-social-app-3e8d4.cloudfunctions.net/api/user/image",
+    formData
+  )
     .then(() => {
       dispatch({ type: SET_LOADING });
       dispatch(getUserDataAction());
@@ -91,7 +100,10 @@ export const uploadImageAction = formData => dispatch => {
 
 export const updateUserDetailsAction = userData => dispatch => {
   dispatch({ type: SET_LOADING });
-  Axios.post("/user", userData)
+  Axios.post(
+    "https://europe-west1-social-app-3e8d4.cloudfunctions.net/api/user",
+    userData
+  )
     .then(() => {
       dispatch({ type: SET_LOADING });
       dispatch(getUserDataAction());
@@ -103,7 +115,9 @@ export const updateUserDetailsAction = userData => dispatch => {
 };
 
 export const likeScreamAction = screamId => dispatch => {
-  Axios.post(`/screams/${screamId}/like`)
+  Axios.post(
+    `https://europe-west1-social-app-3e8d4.cloudfunctions.net/api/screams/${screamId}/like`
+  )
     .then(res => {
       dispatch({
         type: SET_LIKE,
@@ -117,7 +131,9 @@ export const likeScreamAction = screamId => dispatch => {
 };
 
 export const unlikeScreamAction = screamId => dispatch => {
-  Axios.post(`/screams/${screamId}/unlike`)
+  Axios.post(
+    `https://europe-west1-social-app-3e8d4.cloudfunctions.net/api/screams/${screamId}/unlike`
+  )
     .then(res => {
       dispatch({
         type: SET_UNLIKE,
@@ -131,7 +147,9 @@ export const unlikeScreamAction = screamId => dispatch => {
 };
 
 export const deleteScreamAction = screamId => dispatch => {
-  Axios.delete(`/screams/${screamId}`)
+  Axios.delete(
+    `https://europe-west1-social-app-3e8d4.cloudfunctions.net/api/screams/${screamId}`
+  )
     .then(() => {
       dispatch({ type: DELETE_SCREAM, payload: screamId });
     })
@@ -142,7 +160,10 @@ export const deleteScreamAction = screamId => dispatch => {
 
 export const postScreamAction = screamData => dispatch => {
   dispatch({ type: SET_ERRORS });
-  return Axios.post("/screams", screamData)
+  return Axios.post(
+    "https://europe-west1-social-app-3e8d4.cloudfunctions.net/api/screams",
+    screamData
+  )
     .then(res => {
       dispatch({
         type: POST_SCREAM,
@@ -158,7 +179,9 @@ export const postScreamAction = screamData => dispatch => {
 };
 
 export const getScreamAction = screamId => dispatch => {
-  return Axios.get(`/screams/${screamId}`)
+  return Axios.get(
+    `https://europe-west1-social-app-3e8d4.cloudfunctions.net/api/screams/${screamId}`
+  )
     .then(res => {
       dispatch({ type: SET_SCREAM, payload: res.data });
       return res.data;
